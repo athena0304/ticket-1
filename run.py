@@ -142,6 +142,15 @@ def index_no_login():
                            remain_cheer_num=remain_cheer_num, satisfy_cheer_num=20)
 
 
+@app.route('/cheer_no_login', methods=['POST', 'GET'])
+def cheer_no_login():
+    union_id = 1
+    target_union_id = 20
+    remain_cheer_num = request.args.get('remain_cheer_num', 4)
+    return render_template('cheer.html', union_id=union_id,
+                           remain_cheer_num=remain_cheer_num, satisfy_cheer_num=20)
+
+
 @app.route('/cheer', methods=['POST', 'GET'])
 @login_required
 def cheer():

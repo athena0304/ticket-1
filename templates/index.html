@@ -41,13 +41,14 @@
 <!-- 剩余加油个数个数:{{remain_cheer_num}}-->
 
 
-{% if remain_cheer_num==0%}
+{% if remain_cheer_num<=0%}
 <!-- 集齐赞的状态-->
+<!-- 在这里嵌入相应的html即可-->
 
-{% elif  remain_cheer_num<20%}
+{% elif  remain_cheer_num<20 %}
 <!--已经被加油但是还未集齐的状态 -->
 
-{% elif  remain_cheer_num>=20%}
+{% elif  remain_cheer_num>=20 %}
 <!-- 还未开始被加油的状态-->
 
 {% endif%}
