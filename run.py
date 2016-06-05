@@ -11,9 +11,11 @@ from flask import request
 from wechat_sdk import WechatConf
 from wechat_sdk import WechatBasic
 from tools.odbc import get_odbc_inst
+from werkzeug.contrib.fixers import ProxyFix
 from tools.global_conf import *
 
 from tools.WRONG_CODE import *
+from tools.tool import get_remain_cheer_num
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -50,7 +52,7 @@ def check_signature():
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if 'access_token' not in session:
+        if 'union_id' not in session:
             session['target_union_id'] = request.args.get('union_id', '')
             print 'login_required   target_union_id:%s' % session['target_union_id']
             callback_url = urllib.quote_plus('%s/callback' % domain)
@@ -113,22 +115,31 @@ def callback():
 def index():
     union_id = session.get('union_id', '')
     target_union_id = session.get('target_union_id', '')
-    print request.url
     if not target_union_id:
         target_union_id = request.args.get('target_union_id', '')
     if not target_union_id:
-        foo_union_id = request.args.get('union_id', '')
-        if foo_union_id and foo_union_id != union_id:
-            target_union_id = foo_union_id
-    print 'index   target_union_id:%s' % session['target_union_id']
-    if target_union_id and union_id != target_union_id:
+        target_union_id = union_id
+    if union_id != target_union_id:
         cheer_num = get_odbc_inst().get_cheer_num(target_union_id)
+        remain_cheer_num = get_remain_cheer_num(cheer_num)
         print 'target_cheer_num:%s' % cheer_num
         session['target_union_id'] = ''
-        return render_template('cheer.html', union_id=union_id, target_union_id=target_union_id, cheer_num=cheer_num)
+        return render_template('cheer.html', union_id=union_id, target_union_id=target_union_id,
+                               remain_cheer_num=remain_cheer_num, satisfy_cheer_num=satisfy_cheer_num)
     else:
         cheer_num = get_odbc_inst().get_cheer_num(union_id)
-        return render_template('index.html', union_id=union_id, cheer_num=cheer_num)
+        remain_cheer_num = get_remain_cheer_num(cheer_num)
+        return render_template('index.html', union_id=union_id, remain_cheer_num=remain_cheer_num,
+                               satisfy_cheer_num=satisfy_cheer_num)
+
+
+@app.route('/index_no_login', methods=['POST', 'GET'])
+def index_no_login():
+    union_id = 1
+    target_union_id = 20
+    remain_cheer_num = request.args.get('remain_cheer_num', 4)
+    return render_template('index.html', union_id=union_id,
+                           remain_cheer_num=remain_cheer_num, satisfy_cheer_num=20)
 
 
 @app.route('/cheer', methods=['POST', 'GET'])
@@ -157,6 +168,7 @@ def async_cheer():
 
 
 if __name__ == '__main__':
+    app.wsgi_app = ProxyFix(app.wsgi_app)
     app.debug = True
     app.secret_key = 'opends-client-secrets'
     app.run(host='0.0.0.0', port=80)

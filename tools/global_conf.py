@@ -10,3 +10,4 @@ server = '180.76.156.27'
 uid = 'root'
 port = 3306
 pwd = 'gsteps2016!'
+satisfy_cheer_num = 20
