@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <title></title>
+    <link rel="stylesheet" href="static/css/main.css">
+    <link rel="stylesheet" href="static/css/count.css">
+</head>
+<body>
+
+<div id="formbackground" style="position:absolute; width:100%; height:100%; z-index:-1">
+<img src="static/img/bg.png" height="100%" width="100%"/>
+</div>
+
+<div class="title-wrap">
+   <img src="static/img/title1.png" class="title1">
+   <img src="static/img/title2.png" class="title2">
+</div>
+<div id="counter"></div>
+
+<div class="ticket-wrapper">
+    <h3 class="ticket-title">G-STEPS 3周年公演入场票</h3>
+    <img src="static/img/ticket.png" class="ticket" alt="">
+</div>
+<div class="exchange-wrapper">
+    <p>你的好友还差<span class="cheer_num">{{ cheer_num }}</span>人加油即可兑换</p>
+</div>
+
+
+您的好友被点赞个数:
+<label id="cheer_num">{{ cheer_num }}</label>
+<input type="button" onclick="cheer('{{ union_id }}', '{{ target_union_id }}')" value="为他加油">
+
+<script src="static/js/main.js"></script>
+<script>
+    function cheer(union_id, target_union_id) {
+        var data = {"union_id": union_id, 'target_union_id': target_union_id};
+        $.ajax({
+            url: '/async_cheer',
+            dataType: "json",
+            async: true,
+            data: data,
+            type: "POST",
+            success: function (req) {
+                if (req.code == 1) {
+                    $("#cheer_num").html(req.cheer_num);
+                } else {
+                    alert("加油失败:错误码" + req.code)
+                }
+
+            }
+        });
+
+    }
+</script>
+</body>
+</html>
