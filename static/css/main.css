@@ -146,9 +146,15 @@ hr {
   font-size: 14px;
 }
 .button-wrapper .btn-want,
-.button-wrapper .btn-help {
+.button-wrapper .btn-help,
+.button-wrapper .btn-want-also {
   color: #fff;
   border: 1px solid #fff;
+}
+.button-wrapper .btn-cheerup {
+  color: #fff;
+  background: #d32b2e;
+  margin-bottom: 10px;
 }
 .button-wrapper .want-tips {
   color: #fff;

@@ -4,6 +4,7 @@ import urllib
 import urllib2
 from functools import wraps
 import sys
+import logging
 
 from flask import Flask
 from flask import render_template, session, redirect
@@ -20,6 +21,9 @@ from tools.tool import get_remain_cheer_num
 reload(sys)
 sys.setdefaultencoding("utf-8")
 
+logging.basicConfig(level=logging.DEBUG,
+                format='%(asctime)s %(filename)s[line:%(lineno)d] %(levelname)s %(message)s',
+                datefmt='%a, %d %b %Y %H:%M:%S')
 conf = WechatConf(
     token=token,
     appid=appid,
@@ -54,7 +58,7 @@ def login_required(f):
     def decorated_function(*args, **kwargs):
         if 'union_id' not in session or 'access_token' not in session:
             session['target_union_id'] = request.args.get('union_id', '')
-            print 'login_required   target_union_id:%s' % session['target_union_id']
+            logging.info('login_required   target_union_id:%s' % session['target_union_id'])
             callback_url = urllib.quote_plus('%s/callback' % domain)
             urls = 'https://open.weixin.qq.com/connect/oauth2/authorize?' \
                    'appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect' % (
@@ -108,6 +112,7 @@ def callback():
         session['union_id'] = user_info['union_id']
 	get_odbc_inst().register_user(user_info)
 	args = session.get('target_union_id', '')
+	logging.info('callbak target_union_id:%s' % args)
 	if not args:
 	    args = user_info['union_id']
     return redirect('/?union_id=%s' % args)
@@ -122,10 +127,11 @@ def index():
         target_union_id = request.args.get('target_union_id', '')
     if not target_union_id:
         target_union_id = union_id
+    logging.info('index union_id:%s, target_union_id:%s' % (union_id, target_union_id))
     if union_id != target_union_id:
         cheer_num = get_odbc_inst().get_cheer_num(target_union_id)
         remain_cheer_num = get_remain_cheer_num(cheer_num)
-        print 'target_cheer_num:%s' % cheer_num
+        logging.info('target_cheer_num:%s' % cheer_num)
         session['target_union_id'] = ''
         return render_template('cheer.html', union_id=union_id, target_union_id=target_union_id,
                                remain_cheer_num=remain_cheer_num, satisfy_cheer_num=satisfy_cheer_num)

@@ -7,6 +7,7 @@
     <title></title>
     <link rel="stylesheet" href="static/css/main.css">
     <link rel="stylesheet" href="static/css/count.css">
+    <link rel="stylesheet" href="static/css/count.css">
 </head>
 <body>
 
@@ -18,7 +19,13 @@
    <img src="static/img/title1.png" class="title1">
    <img src="static/img/title2.png" class="title2">
 </div>
-<div id="counter"></div>
+
+<div id="counter">
+    <span class="days"></span>
+    <span class="hours"></span>
+    <span class="minutes"></span>
+    <span class="seconds"></span>
+</div>
 
 <div class="ticket-wrapper">
     <h3 class="ticket-title">G-STEPS 3周年公演入场票</h3>
@@ -28,11 +35,17 @@
     <p>你的好友还差<span class="remain_cheer_num">{{ remain_cheer_num }}</span>人加油即可兑换</p>
 </div>
 
+<div class="button-wrapper">
+    <a class="btn btn-cheerup" href="javascript:;">加油</a>
+    <a class="btn btn-want-also" href="/activity">我也要入场票</a>
+</div>
 
 您的好友被点赞个数:
 <label id="cheer_num">{{ cheer_num }}</label>
 <input type="button" onclick="cheer('{{ union_id }}', '{{ target_union_id }}')" value="为他加油">
 
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 <script src="static/js/main.js"></script>
 <script>
     function cheer(union_id, target_union_id) {
@@ -45,6 +58,10 @@
             type: "POST",
             success: function (req) {
                 if (req.code == 1) {
+                    layer.open({
+                        content:'加油成功',
+                        btn:'确定'
+                    })
                     $("#cheer_num").html(req.cheer_num);
                 } else {
                     alert("加油失败:错误码" + req.code)
