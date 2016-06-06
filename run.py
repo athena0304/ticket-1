@@ -52,7 +52,7 @@ def check_signature():
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if 'union_id' not in session:
+        if 'union_id' not in session or 'access_token' not in session:
             session['target_union_id'] = request.args.get('union_id', '')
             print 'login_required   target_union_id:%s' % session['target_union_id']
             callback_url = urllib.quote_plus('%s/callback' % domain)
@@ -106,8 +106,11 @@ def callback():
         session['open_id'] = res['openid']
         user_info = get_user_info()
         session['union_id'] = user_info['union_id']
-        get_odbc_inst().register_user(user_info)
-    return redirect('/?union_id=%s' % user_info['union_id'])
+	get_odbc_inst().register_user(user_info)
+	args = session.get('target_union_id', '')
+	if not args:
+	    args = user_info['union_id']
+    return redirect('/?union_id=%s' % args)
 
 
 @app.route('/', methods=['POST', 'GET'])
