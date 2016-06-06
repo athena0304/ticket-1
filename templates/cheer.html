@@ -36,13 +36,9 @@
 </div>
 
 <div class="button-wrapper">
-    <a class="btn btn-cheerup" href="javascript:;">加油</a>
+    <a class="btn btn-cheerup" href="javascript:;" onclick="cheer('{{ union_id }}', '{{ target_union_id }}')">加油</a>
     <a class="btn btn-want-also" href="/activity">我也要入场票</a>
 </div>
-
-您的好友被点赞个数:
-<label id="cheer_num">{{ cheer_num }}</label>
-<input type="button" onclick="cheer('{{ union_id }}', '{{ target_union_id }}')" value="为他加油">
 
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
