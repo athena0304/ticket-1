@@ -154,7 +154,6 @@ hr {
 .button-wrapper .btn-cheerup {
   color: #fff;
   background: #d32b2e;
-  margin-bottom: 10px;
 }
 .button-wrapper .want-tips {
   color: #fff;
@@ -177,7 +176,7 @@ hr {
   text-align: center;
 }
 .ticket-wrapper .ticket {
-  width: 90%;
+  width: 100%;
 }
 .ticket-wrapper .ticket-title {
   margin: 30px 0 10px;
@@ -185,6 +184,22 @@ hr {
   font-weight: bold;
   color: #fff;
   text-align: center;
+}
+.ticket-wrapper .ticket_img_wrapper {
+  position: relative;
+  margin: 0 auto;
+  width: 80%;
+}
+.ticket-wrapper .ticket_img_wrapper .ticket_modal {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3.33%;
+  background-color: rgba(0, 0, 0, 0.4);
+  z-index: 10;
+}
+.ticket-wrapper .ticket_img_wrapper .ticket_modal.hide {
+  background-color: rgba(0, 0, 0, 0);
 }
 .exchange-wrapper {
   width: 90%;

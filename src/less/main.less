@@ -64,7 +64,6 @@ hr{border:0;height:1px}
     .btn-cheerup{
         color: #fff;
         background: #d32b2e;
-        margin-bottom: 10px;
     }
     .want-tips{
         color: #fff;
@@ -90,7 +89,7 @@ hr{border:0;height:1px}
 .ticket-wrapper{
     text-align: center;
     .ticket {
-        width: 90%;
+        width: 100%;
     }
     .ticket-title{
         margin: 30px 0 10px;
@@ -99,7 +98,29 @@ hr{border:0;height:1px}
         color:#fff;
         text-align: center;
     }
+    .ticket_img_wrapper {
+        // position: relative;
+        // left: 50%;
+        position: relative;
+        margin: 0 auto;
+        width: 80%;
+        // transform: translateX(-50%)
 
+        .ticket_modal {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            // font-size: 0;
+            // display: inline-block;
+            width: 3.33%;
+            // margin-left: 1%;
+            background-color: rgba(0,0,0,0.4);
+            z-index: 10;
+        }
+        .ticket_modal.hide {
+            background-color: rgba(0,0,0,0.0);
+        }
+    }
 }
 
 .exchange-wrapper{
