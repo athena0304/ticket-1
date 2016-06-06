@@ -138,13 +138,15 @@ hr {
   text-align: center;
 }
 .button-wrapper .btn {
+  display: inline-block;
   width: 80%;
   padding: 10px 0;
   border-radius: 15px;
   background: transparent;
   font-size: 14px;
 }
-.button-wrapper .btn-want {
+.button-wrapper .btn-want,
+.button-wrapper .btn-help {
   color: #fff;
   border: 1px solid #fff;
 }

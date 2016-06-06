@@ -19,16 +19,17 @@
 </div>
 <div id="counter"></div>
 
-<div class="video-wrap">
-    <iframe width="90%" src="http://player.youku.com/embed/XMzc4MzI0MTAw" frameborder=0 allowfullscreen></iframe>
+<div class="ticket-wrapper">
+    <h3 class="ticket-title">G-STEPS 3周年公演入场票</h3>
+    <img src="static/img/ticket.png" class="ticket" alt="">
 </div>
 
-<div class="introtext-wrapper">
-    <p>G-STEPS是360公司内部，一个连程序猿都会Hip-Hop的街舞社团，来瞧瞧我们的另一面！</p>
+<div class="exchange-wrapper">
+    <p>你还差<span class="remain_cheer_num">{{ remain_cheer_num }}</span>人加油即可兑换</p>
 </div>
 
 <div class="button-wrapper">
-    <button class="btn btn-want">我要门票</button>
+    <button class="btn btn-help">让盆友帮忙兑票</button>
     <p class="want-tips" style="display:none">发送给盆友的方法：点击右上角分享，你懂的!</p>
 </div>
 
@@ -58,7 +59,7 @@
 <script src="static/js/main.js"></script>
 
 <script>
-    $(".btn-want").on('click', function(){
+    $(".btn-help").on('click', function(){
         $(".want-tips").show();
     })
 </script>
