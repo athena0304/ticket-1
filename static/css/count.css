@@ -16,6 +16,8 @@
   vertical-align: middle;
 }
 #counter span {
+  display: inline-block;
+  min-height: 38px;
   font-family: 'Arial', sans-serif;
   text-align: center;
   min-width: 45px;

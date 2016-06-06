@@ -1,6 +1,7 @@
 //counts up or down depending on date entered in //format at the bottom
-
-function counter(date) {
+// window.DOMContentLoaded = function() {
+  $(document).ready(function() {
+    function counter(date) {
   var theDate = new Date(date);
   var _second = 1000;
   var _minute = _second * 60;
@@ -43,12 +44,23 @@ function counter(date) {
       daytext = ' day ';
     }
     if (days > 0) {
-      document.getElementById('counter').innerHTML = '<span class="days">' + days + '</span>' + '<span class="hours">' + hours + '</span>' + '<span class="minutes">' + minutes + '</span>' + '<span class="seconds">' + seconds + '</span>';
+      // document.getElementById('counter').innerHTML = '<span class="days">' + days + '</span>' + '<span class="hours">' + hours + '</span>' + '<span class="minutes">' + minutes + '</span>' + '<span class="seconds">' + seconds + '</span>';
+      document.querySelector(".days").innerHTML = days;
+      document.querySelector(".hours").innerHTML = hours;
+      document.querySelector(".minutes").innerHTML = minutes;
+      document.querySelector(".seconds").innerHTML = seconds;
+
     } else {
-      document.getElementById('counter').innerHTML = '<span class="hours">' + hours + '</span>' + '<span class="minutes">' + minutes + '</span>' + '<span class="seconds">' + seconds + '</span>';
+      // document.getElementById('counter').innerHTML = '<span class="hours">' + hours + '</span>' + '<span class="minutes">' + minutes + '</span>' + '<span class="seconds">' + seconds + '</span>';
     }
   }
   timer = setInterval(count, 1000);
 }
 
 counter('06/17/2016 19:30:00 GMT-0400 (EDT)');
+  });
+
+// }
+
+
+
