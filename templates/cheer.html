@@ -50,16 +50,6 @@
         <div class="ticket_modal"></div>
         <div class="ticket_modal"></div>
         <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
     </div>
 </div>
 
@@ -81,10 +71,10 @@
 
     var ticket_models = $(".ticket_modal")
     ticket_models.each(function(index, ele) {
-        $(this).css("left", index * 3.33 + "%")
+        $(this).css("left", index * 5 + "%")
     })
 
-    var num = 30 - parseInt($(".remain_cheer_num").text());
+    var num = 20 - parseInt($(".remain_cheer_num").text());
     ticket_models.filter(":lt("+num+")").addClass('hide');
 
     function cheer(union_id, target_union_id) {
@@ -106,7 +96,7 @@
                         btn:['确定']
                     })
 
-                    var num = 30 - req.target_remain_cheer_num;
+                    var num = 20 - req.target_remain_cheer_num;
 
                     if(num == 0) {
                         $(".exchange-wrapper p").html("您的朋友已经成功获取入场票");

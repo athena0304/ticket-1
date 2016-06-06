@@ -57,21 +57,10 @@
         <div class="ticket_modal"></div>
         <div class="ticket_modal"></div>
         <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
     </div>
 </div>
 
 <!-- 剩余加油个数个数:{{remain_cheer_num}}-->
-
 
 {% if remain_cheer_num<=0%}
 <!-- 集齐赞的状态-->
@@ -91,11 +80,8 @@
 <h3 class="ticket-title">入场时间：6月17日晚19:30</h3>
 <h3 class="ticket-title">演出地点：798剧场</h3>
 
-
-
-{% elif  remain_cheer_num<=30 %}
+{% elif  remain_cheer_num<=20 %}
 <!--已经被加油但是还未集齐的状态 -->
-
 
 <div class="exchange-wrapper">
     <p>你还差<span class="remain_cheer_num">{{ remain_cheer_num }}</span>人加油即可兑换</p>
@@ -108,22 +94,24 @@
 
 {% endif%}
 
-
-
-
 <div class="footer">
 <a href="#">360G-STEPS街舞社</a>|<a href="#">360员工关怀</a>
 </div>
-
-
-
-
-
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 <script src="static/js/main.js"></script>
 
 <script>
+
+    var ticket_models = $(".ticket_modal")
+    ticket_models.each(function(index, ele) {
+        $(this).css("left", index * 5 + "%")
+    })
+    var num = 20 - parseInt($(".remain_cheer_num").eq(0).text());
+    ticket_models.filter(":lt("+ num +")").addClass('hide');
+
+
+
     $(".btn-help").on('click', function(){
         $(".want-tips").show();
     })
