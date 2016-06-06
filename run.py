@@ -123,10 +123,14 @@ def callback():
 def index():
     union_id = session.get('union_id', '')
     target_union_id = session.get('target_union_id', '')
+    logging.info('index session target_union_id:%s' % (target_union_id))
     if not target_union_id:
-        target_union_id = request.args.get('target_union_id', '')
+        target_union_id = request.args.get('union_id', '')
+    	logging.info('index request.args  target_union_id:%s' % (target_union_id))
+    	logging.info('index request.form  target_union_id:%s' % (request.form.get('union_id', '')))
     if not target_union_id:
-        target_union_id = union_id
+    	logging.info('index no  target_union_id')
+	return redirect('/?union_id=%s' % union_id)
     logging.info('index union_id:%s, target_union_id:%s' % (union_id, target_union_id))
     if union_id != target_union_id:
         cheer_num = get_odbc_inst().get_cheer_num(target_union_id)
@@ -153,10 +157,10 @@ def index_no_login():
 
 @app.route('/cheer_no_login', methods=['POST', 'GET'])
 def cheer_no_login():
-    union_id = 1
-    target_union_id = 20
+    union_id = 'test union_id'
+    target_union_id = 'test target_union_id'
     remain_cheer_num = request.args.get('remain_cheer_num', 4)
-    return render_template('cheer.html', union_id=union_id,
+    return render_template('cheer.html', union_id=union_id, target_union_id=target_union_id,
                            remain_cheer_num=remain_cheer_num, satisfy_cheer_num=20)
 
 
@@ -167,7 +171,6 @@ def cheer():
 
 
 @app.route('/async_cheer', methods=['POST'])
-@login_required
 def async_cheer():
     union_id = request.form.get('union_id', '')
     target_union_id = request.form.get('target_union_id', '')
@@ -180,7 +183,8 @@ def async_cheer():
         code = get_odbc_inst().cheer(union_id, target_union_id)
     if code == RIGHT:
         target_cheer_num = get_odbc_inst().get_cheer_num(target_union_id)
-        return json.dumps({'code': code, 'target_cheer_num': target_cheer_num})
+        target_remain_cheer_num = get_remain_cheer_num(target_cheer_num)
+        return json.dumps({'code': code, 'target_remain_cheer_num': target_remain_cheer_num})
     else:
         return json.dumps({'code': code})
 
@@ -191,6 +195,6 @@ def activity():
 
 if __name__ == '__main__':
     app.wsgi_app = ProxyFix(app.wsgi_app)
-    app.debug = True
+    #app.debug = True
     app.secret_key = 'opends-client-secrets'
     app.run(host='0.0.0.0', port=80)

@@ -21,7 +21,7 @@
 }
 .layermmain {
   display: table;
-  font-family: Helvetica, arial, sans-serif;
+  font-family: 'Microsoft YaHei', Helvetica, arial, sans-serif;
   pointer-events: none;
 }
 .layermmain .section {

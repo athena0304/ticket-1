@@ -1,11 +1,21 @@
 $(document).ready(function() {
-    // $(".ticket_modal").height($(".ticket_img_wrapper").height());
-    var ticket_models = $(".ticket_modal")
-    ticket_models.each(function(index, ele) {
-        $(this).css("left", index * 3.33 + "%")
+
+    function loadQrcode () {
+        layer.open({
+            title: [
+            '长按关注官方账号',
+            'background-color:#182f52; color:#fff;'
+            ],
+            content:"<img src='/static/img/qrcode.png'></img><p>长按关注G-STEPS街舞社可随时咨询问题</p>",
+        })
+    }
+
+    $(".info").on("click", function(){
+        loadQrcode();
     })
 
-    var num = 15;
+    $(".footer a").on("click", function() {
+        loadQrcode();
+    })
 
-    ticket_models.filter(":lt(5)").addClass('hide')
 });

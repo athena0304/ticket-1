@@ -1,5 +1,4 @@
 //counts up or down depending on date entered in //format at the bottom
-// window.DOMContentLoaded = function() {
   $(document).ready(function() {
     function counter(date) {
   var theDate = new Date(date);
@@ -17,12 +16,17 @@
         clearInterval(timer);
         return;
       }
-    } else {
+    }
+    else {
       var distance = now - theDate;
-      if (distance < 0) {
-        clearInterval(timer);
-        return;
-      }
+      $("#counter").css("visibility", "visible").html("<h2>开始咯！哟哟切克闹！</h2>");
+      clearInterval(timer);
+      return;
+
+      // if (distance < 0) {
+      //   clearInterval(timer);
+      //   return;
+      // }
     }
     var days = Math.floor(distance / _day);
     var hours = Math.floor((distance % _day) / _hour);
@@ -49,17 +53,15 @@
       document.querySelector(".hours").innerHTML = hours;
       document.querySelector(".minutes").innerHTML = minutes;
       document.querySelector(".seconds").innerHTML = seconds;
+      $("#counter").css("visibility", "visible")
 
-    } else {
-      // document.getElementById('counter').innerHTML = '<span class="hours">' + hours + '</span>' + '<span class="minutes">' + minutes + '</span>' + '<span class="seconds">' + seconds + '</span>';
     }
   }
   timer = setInterval(count, 1000);
 }
 
-counter('06/17/2016 19:30:00 GMT-0400 (EDT)');
+  counter('06/17/2016 19:30:00 GMT-0400 (EDT)');
   });
 
-// }
 
 
