@@ -176,6 +176,10 @@ def async_cheer():
         return json.dumps({'code': code})
 
 
+@app.route('/activity', methods=['POST', 'GET'])
+def activity():
+    return render_template('activity.html')
+
 if __name__ == '__main__':
     app.wsgi_app = ProxyFix(app.wsgi_app)
     app.debug = True
