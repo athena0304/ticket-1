@@ -3,8 +3,11 @@ import json
 import urllib
 import urllib2
 from functools import wraps
-import sys
+import sys, os
 import logging
+_dir = os.path.dirname(os.path.realpath(__file__))
+print _dir
+os.chdir(_dir)
 
 from flask import Flask
 from flask import render_template, session, redirect
@@ -17,6 +20,8 @@ from tools.global_conf import *
 
 from tools.WRONG_CODE import *
 from tools.tool import get_remain_cheer_num
+app = Flask(__name__)
+app.secret_key = 'opends-client-secrets'
 
 reload(sys)
 sys.setdefaultencoding("utf-8")
@@ -32,7 +37,6 @@ conf = WechatConf(
     # encoding_aes_key='your_encoding_aes_key'  # 如果传入此值则必须保证同时传入 token, appid
 )
 wechat = WechatBasic(conf=conf)
-app = Flask(__name__)
 
 
 @app.route('/test')
@@ -207,9 +211,13 @@ def async_cheer():
 def activity():
     return render_template('activity.html')
 
+def application(env, start_response):
+    start_response('200 OK', [('Content_Type', 'text/html')])
+    return "Congraduation!!! uWSGI Testing OK!!!"
 
 if __name__ == '__main__':
-    app.wsgi_app = ProxyFix(app.wsgi_app)
+    #app.wsgi_app = ProxyFix(app.wsgi_app)
     # app.debug = True
     app.secret_key = 'opends-client-secrets'
     app.run(host='0.0.0.0', port=80)
+    app.run()

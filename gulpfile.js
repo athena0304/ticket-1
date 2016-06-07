@@ -25,7 +25,7 @@ gulp.task('testLess', function () {
 //});
 
 gulp.task('scripts', function() {
-  gulp.src(['src/js/count.js', 'src/js/layer.js', 'src/js/home.js'])
+  gulp.src(['src/js/count.js', 'src/js/layer.js', 'src/js/home.js', 'src/js/jweixin-1.0.0.js'])
     .pipe(concat('main.js'))
     .pipe(gulp.dest('static/js'))
 });
