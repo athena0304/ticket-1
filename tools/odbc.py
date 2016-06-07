@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+import logging
 import MySQLdb
 import MySQLdb.cursors as cursors
 from DBUtils.PooledDB import PooledDB
@@ -55,6 +56,19 @@ class ODBC():
             cursor = conn.cursor()
             return conn, cursor
 
+    def fetch_all(self, sql, cursor_type='list'):
+	try:
+	    conn, cursor = self.get_cursor(cursor_type)
+	    cursor.execute(sql)
+	    res = cursor.fetchall()
+	    return res
+	except Exception, e:
+	    return [[]]
+	finally:
+	    cursor.close()
+	    conn.close()
+
+
     def register_user(self, user_info):
         conn, cursor = self.get_cursor()
         sql = "select count(1) from `ticket`.`user` where `open_id`='%s' and `union_id`='%s' " % (
@@ -110,8 +124,10 @@ class ODBC():
             else:
                 return False
         except Exception, e:
-            print e
-            return False
+	    return False
+	finally:
+	    cursor.close()
+	    conn.close()
 
     def get_cheer_num(self, union_id):
         try:
@@ -122,8 +138,10 @@ class ODBC():
             cheer_num = res[0][0]
             return cheer_num
         except Exception, e:
-            print e
-            return 0
+	    return 0
+	finally:
+	    cursor.close()
+	    conn.close()
 
     def is_user_exist(self, union_id):
         try:
@@ -136,8 +154,28 @@ class ODBC():
             else:
                 return True
         except Exception, e:
-            return False
+	    return False
+	finally:
+	    cursor.close()
+	    conn.close()
 
+    def get_cheer_info(self, union_id):
+        try:
+            conn, cursor = self.get_cursor()
+            sql = "select `nickname`, `head_img_url` from `ticket`.`user` u join `ticket`.`cheer` c on c.`union_id` = u.`union_id` " \
+			"where c.`target_union_id`=%s "
+            cursor.execute(sql, (union_id,))
+            friends_info = cursor.fetchall()
+	    sql = " select `nickname`, `head_img_url` from `ticket`.`user` u where u.`union_id`=%s " 
+            cursor.execute(sql, (union_id,))
+            self_info = cursor.fetchall()[0]
+	    return {'self_info':self_info, 'friends_info':friends_info}
+        except Exception, e:
+	    logging.info(e)
+	    return {}
+	finally:
+	    cursor.close()
+	    conn.close()
 
 def get_odbc_inst():
     return ODBC()
