@@ -210,6 +210,10 @@ def activity():
 
 if __name__ == '__main__':
     app.wsgi_app = ProxyFix(app.wsgi_app)
+<<<<<<< HEAD
+    #app.debug = True
+=======
     # app.debug = True
+>>>>>>> 3e3ff5384d6d746b5d2b1b02d34ba7de5b5e50b3
     app.secret_key = 'opends-client-secrets'
     app.run(host='0.0.0.0', port=80)
