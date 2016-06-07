@@ -177,5 +177,45 @@ class ODBC():
 	    cursor.close()
 	    conn.close()
 
+    def get_cache(self, cache_type):
+        try:
+            conn, cursor = self.get_cursor()
+            sql = "select `cache`, `update_time` from `ticket`.`cache` t where `cache_type`=%s"
+            cursor.execute(sql, (cache_type,))
+            cache_info = cursor.fetchall()[0]
+	    if not cache_info:
+		return {'code': NO_CACHE, 'cache':''}
+	    else:
+		cache, update_time = cache_info
+		import datetime
+		a = datetime.datetime.now()
+		if (a-update_time).seconds>5400:
+		    return {'code': CACHE_TIME_OUT, 'cache':''}
+		else:
+		    return {'code': RIGHT, 'cache':cache}
+        except Exception, e:
+	    logging.info(e)
+	    return {'code': NO_CACHE, 'cache':''}
+	finally:
+	    cursor.close()
+	    conn.close()
+
+    def save_cache(self, cache, cache_type):
+        try:
+            conn, cursor = self.get_cursor()
+	    sql = u'delete from `ticket`.`cache` where `cache_type`=%s'
+            cursor.execute(sql, (cache_type,))
+	    import datetime
+	    a = datetime.datetime.now()
+            sql = u'insert into `ticket`.`cache` (`cache_type`, `cache`, `update_time`) values (%s,  %s, %s)'
+            cursor.execute(sql, (cache_type, cache, a))
+	    return True
+        except Exception, e:
+	    logging.info(e)
+	    return False
+	finally:
+	    cursor.close()
+	    conn.close()
+
 def get_odbc_inst():
     return ODBC()

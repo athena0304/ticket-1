@@ -11,3 +11,7 @@ uid = 'root'
 port = 3306
 pwd = 'gsteps2016!'
 satisfy_cheer_num = 20
+
+BASE_TOKEN = 1
+WX_TICKET = 2
+NONCESTR = 'Wm3WZYTPz0wzccnW'

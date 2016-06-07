@@ -107,9 +107,46 @@
 
 <script type="text/javascript" src="{{ url_for('static', filename='js/jquery.js') }}"></script>
 <script src="static/js/main.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script>
+$.ajax({
+  url: "/conf_menu_share",
+  type: "GET",
+  dataType: "json",
+  success: function(data) {
+        var config = {
+            debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+    appId: data.appid, // 必填，公众号的唯一标识
+    timestamp: data.timestamp, // 必填，生成签名的时间戳
+    nonceStr: data.noncestr, // 必填，生成签名的随机串
+    signature: data.signature,// 必填，签名，见附录1
+    jsApiList: data.js_api_list// 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+         }
+
+        console.log(config);
+      wx.config(config);
+      wx.ready(function () {
+  wx.onMenuShareAppMessage({
+      title: '360G-STEPS街舞社公演入场券！开抢啦！',
+      desc: '一个连程序猿都会Hip-Hop的街舞社团，来瞧瞧我们的另一面！',
+      link: data.link,
+      imgUrl: 'http://www.weiyubb.cn/static/img/logo.png',
+      trigger: function (res) {
+      },
+      success: function (res) {
+      },
+      cancel: function (res) {
+      },
+      fail: function (res) {
+        alert(JSON.stringify(res));
+      }
+    });
+      })  
+  } 
+})
+</script>
 
 <script>
-
     var ticket_models = $(".ticket_modal")
     ticket_models.each(function(index, ele) {
         $(this).css("left", index * 5 + "%")

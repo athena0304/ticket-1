@@ -3,8 +3,9 @@ import json
 import urllib
 import urllib2
 from functools import wraps
-import sys, os
+import sys, os, time
 import logging
+import hashlib
 _dir = os.path.dirname(os.path.realpath(__file__))
 print _dir
 os.chdir(_dir)
@@ -101,6 +102,50 @@ def get_user_info():
     }
     return user_info
 
+def get_base_access_token():
+    cache_info = get_odbc_inst().get_cache(BASE_TOKEN)
+    code = cache_info['code']
+    access_token = cache_info['cache']
+    if code != RIGHT:
+        urls = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s" % (appid, appsecret)
+	res = url_get(urls)
+	access_token = res.get('access_token', '')
+	if access_token:
+	    get_odbc_inst().save_cache(access_token, BASE_TOKEN)
+    return access_token
+
+def get_wx_ticket():
+    cache_info = get_odbc_inst().get_cache(WX_TICKET)
+    code = cache_info['code']
+    wx_ticket = cache_info['cache']
+    if code != RIGHT:
+        urls = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=%s&type=jsapi" % get_base_access_token()
+	res = url_get(urls)
+	wx_ticket = res.get('ticket', '')
+	if wx_ticket:
+	    get_odbc_inst().save_cache(wx_ticket, WX_TICKET)
+    return wx_ticket
+
+def get_menu_share_conf(url):
+    noncestr=NONCESTR
+    jsapi_ticket=get_wx_ticket()
+    timestamps=int(time.time())
+    s = 'jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s' % (jsapi_ticket, NONCESTR, timestamps, url)
+    signature = hashlib.sha1(s).hexdigest()
+    logging.info('s--------:%s,    signature:%s' %(s, signature))
+    return json.dumps({'appid':appid, 
+			'timestamp':timestamps, 
+			'noncestr':noncestr, 
+			'signature':signature, 
+			'link':url,
+			'js_api_list':['onMenuShareTimeline', 'onMenuShareAppMessage'],
+			'signature_decode':s
+			})
+
+@app.route('/conf_menu_share', methods=['get'])
+def conf_menu_share():
+    url = '%s/?union_id=%s' % (domain, session.get('union_id', ''))
+    return get_menu_share_conf(url)
 
 @app.route('/callback', methods=['POST', 'GET'])
 def callback():
