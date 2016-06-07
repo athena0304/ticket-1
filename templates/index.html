@@ -38,26 +38,31 @@
     <h3 class="ticket-title">G-STEPS 3周年公演入场票</h3>
     <div class="ticket_img_wrapper">
         <img src="static/img/ticket.png" class="ticket" alt="">
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
-        <div class="ticket_modal"></div>
+        {% if remain_cheer_num<=0%}
+
+        {% elif  remain_cheer_num<=20 %}
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+            <div class="ticket_modal"></div>
+        {% endif%}
+
     </div>
 </div>
 
