@@ -109,6 +109,7 @@ def callback():
         session['access_token'] = res['access_token']
         session['open_id'] = res['openid']
         user_info = get_user_info()
+	logging.info('callback user_info:%s' % user_info)
         session['union_id'] = user_info['union_id']
 	get_odbc_inst().register_user(user_info)
 	args = session.get('target_union_id', '')
@@ -144,6 +145,19 @@ def index():
         remain_cheer_num = get_remain_cheer_num(cheer_num)
         return render_template('index.html', union_id=union_id, remain_cheer_num=remain_cheer_num,
                                satisfy_cheer_num=satisfy_cheer_num)
+
+@app.route('/get_cheer_info', methods=['GET'])
+def get_cheer_info():
+    code = RIGHT
+    target_union_id = request.args.get('union_id', '')
+    logging.info('get_cheer_info target_union_id:%s' % target_union_id)
+    if not target_union_id:
+	code = GET_CHEER_INFO_NO_UNION_ID
+    cheer_info = get_odbc_inst().get_cheer_info(target_union_id)
+    if not cheer_info:
+	code = GET_CHEER_INFO_FAILED
+    return json.dumps({'code':code, 'cheer_info':cheer_info})
+
 
 
 @app.route('/index_no_login', methods=['POST', 'GET'])
@@ -192,6 +206,7 @@ def async_cheer():
 @app.route('/activity', methods=['POST', 'GET'])
 def activity():
     return render_template('activity.html')
+
 
 if __name__ == '__main__':
     app.wsgi_app = ProxyFix(app.wsgi_app)
