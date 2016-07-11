@@ -141,8 +141,8 @@ $.ajax({
         alert(JSON.stringify(res));
       }
     });
-      })
-  }
+      })  
+  } 
 })
 </script>
 
@@ -157,16 +157,7 @@ $.ajax({
     $(".btn-help").on('click', function(){
         $(".want-tips").show();
     })
-    if($("#full").text() == 0){
-      layer.open({
-          title: [
-          '重要提示',
-          'background-color:#182f52; color:#fff;'
-          ],
-          content:'<p>大家太热情，我们的门票严重超发！</p><p>现场座位有限，请尽早来排队进场！</p><p style="color:red">否则很有可能有票也进不去哦！</p>',
-          btn:['确定']
-      })
-    }
+    if $(".remain_cheer_num"().text())
 </script>
 </body>
 </html>

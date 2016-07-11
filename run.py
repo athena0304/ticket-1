@@ -39,8 +39,7 @@ conf = WechatConf(
 )
 wechat = WechatBasic(conf=conf)
 
-
-@app.route('/test')
+@app.route('/test', methods=['POST', 'GET'])
 def test():
     return 'hello gsteps'
 
@@ -68,6 +67,8 @@ def login_required(f):
             urls = 'https://open.weixin.qq.com/connect/oauth2/authorize?' \
                    'appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect' % (
                        appid, callback_url)
+	    #return urls
+	    return redirect('http://www.baidu.com')
             return redirect(urls)
         else:
             pass
@@ -180,7 +181,7 @@ def index():
     	logging.info('index request.form  target_union_id:%s' % (request.form.get('union_id', '')))
     if not target_union_id:
     	logging.info('index no  target_union_id')
-	return redirect('/?union_id=%s' % union_id)
+        return redirect('/?union_id=%s' % union_id)
     logging.info('index union_id:%s, target_union_id:%s' % (union_id, target_union_id))
     if union_id != target_union_id:
         cheer_num = get_odbc_inst().get_cheer_num(target_union_id)
