@@ -70,7 +70,7 @@ def login_required(f):
                    'appid=%s&redirect_uri=%s&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect' % (
                        appid, callback_url)
             urls = 'http://www.gsteps.cn/Home/Oauth/get_wx_code?appid=%s&scope=snsapi_userinfo&state=callback&redirect_uri=%s' % (
-            appid, callback_url)
+            APPID, callback_url)
             logging.info('urls :%s' % urls)
             # return urls
             return redirect(urls)
