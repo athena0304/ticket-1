@@ -114,7 +114,7 @@ def get_base_access_token():
     access_token = cache_info['cache']
     if code != RIGHT:
         urls = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=%s&secret=%s" % (
-        appid, appsecret)
+        APPID, APPSECRET)
         res = url_get(urls)
         access_token = res.get('access_token', '')
         if access_token:
@@ -142,7 +142,7 @@ def get_menu_share_conf(url):
     s = 'jsapi_ticket=%s&noncestr=%s&timestamp=%s&url=%s' % (jsapi_ticket, NONCESTR, timestamps, url)
     signature = hashlib.sha1(s).hexdigest()
     logging.info('s--------:%s,    signature:%s' % (s, signature))
-    return json.dumps({'appid': appid,
+    return json.dumps({'appid': APPID,
                        'timestamp': timestamps,
                        'noncestr': noncestr,
                        'signature': signature,
@@ -165,7 +165,7 @@ def callback():
     state = request.args.get('state')
     if code:
         code_url = 'https://api.weixin.qq.com/sns/oauth2/access_token?' \
-                   'appid=%s&secret=%s&code=%s&grant_type=authorization_code' % (appid, appsecret, code)
+                   'appid=%s&secret=%s&code=%s&grant_type=authorization_code' % (APPID, APPSECRET, code)
         res = url_get(code_url)
         session['access_token'] = res['access_token']
         session['open_id'] = res['openid']
