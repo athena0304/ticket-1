@@ -22,10 +22,10 @@ def singleton(cls, *args, **kw):
 class ODBC():
     def __init__(self):
         connect_info = {
-            'server': server,
-            'uid': uid,
-            'port': port,
-            'pwd': pwd
+            'server': SERVER,
+            'uid': UID,
+            'port': PORT,
+            'pwd': PWD
         }
         self.connect_info = connect_info
         self.list_pool = self.create_pool(self.connect_info, 'list')
